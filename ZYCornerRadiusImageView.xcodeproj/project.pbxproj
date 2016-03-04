@@ -13,6 +13,8 @@
 		486AC27F1C88841400948CCD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 486AC27D1C88841400948CCD /* Main.storyboard */; };
 		486AC2811C88841400948CCD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 486AC2801C88841400948CCD /* Assets.xcassets */; };
 		486AC2841C88841400948CCD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 486AC2821C88841400948CCD /* LaunchScreen.storyboard */; };
+		486AC2961C88848D00948CCD /* UIImageView+CornerRadius.m in Sources */ = {isa = PBXBuildFile; fileRef = 486AC2951C88848D00948CCD /* UIImageView+CornerRadius.m */; };
+		486AC2991C8884E000948CCD /* ZYImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 486AC2981C8884E000948CCD /* ZYImageView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,10 @@
 		486AC2801C88841400948CCD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		486AC2831C88841400948CCD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		486AC2851C88841400948CCD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		486AC2941C88848D00948CCD /* UIImageView+CornerRadius.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+CornerRadius.h"; sourceTree = "<group>"; };
+		486AC2951C88848D00948CCD /* UIImageView+CornerRadius.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+CornerRadius.m"; sourceTree = "<group>"; };
+		486AC2971C8884E000948CCD /* ZYImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYImageView.h; sourceTree = "<group>"; };
+		486AC2981C8884E000948CCD /* ZYImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYImageView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +64,7 @@
 		486AC2731C88841400948CCD /* ZYCornerRadiusImageView */ = {
 			isa = PBXGroup;
 			children = (
+				486AC2931C88848D00948CCD /* CornerRadiusCategory */,
 				486AC2771C88841400948CCD /* AppDelegate.h */,
 				486AC2781C88841400948CCD /* AppDelegate.m */,
 				486AC27A1C88841400948CCD /* ViewController.h */,
@@ -77,6 +84,17 @@
 				486AC2751C88841400948CCD /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		486AC2931C88848D00948CCD /* CornerRadiusCategory */ = {
+			isa = PBXGroup;
+			children = (
+				486AC2941C88848D00948CCD /* UIImageView+CornerRadius.h */,
+				486AC2951C88848D00948CCD /* UIImageView+CornerRadius.m */,
+				486AC2971C8884E000948CCD /* ZYImageView.h */,
+				486AC2981C8884E000948CCD /* ZYImageView.m */,
+			);
+			path = CornerRadiusCategory;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -150,6 +168,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				486AC27C1C88841400948CCD /* ViewController.m in Sources */,
+				486AC2961C88848D00948CCD /* UIImageView+CornerRadius.m in Sources */,
+				486AC2991C8884E000948CCD /* ZYImageView.m in Sources */,
 				486AC2791C88841400948CCD /* AppDelegate.m in Sources */,
 				486AC2761C88841400948CCD /* main.m in Sources */,
 			);
