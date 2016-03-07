@@ -1,5 +1,6 @@
 # ZYCornerRadius
-A Category to make cornerRadius for UIImageView have no Offscreen-Rendered, be more efficiency
+A Category to make cornerRadius for UIImageView have no Offscreen-Rendered, be more efficiency  
+
 ![](https://img.shields.io/badge/pod-v0.3.1-blue.svg)
 ![](https://img.shields.io/badge/build-passing-brightgreen.svg)
 ![](https://img.shields.io/badge/license-MIT-brightgreen.svg)  
