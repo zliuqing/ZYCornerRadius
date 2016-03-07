@@ -10,9 +10,8 @@ A Category to make cornerRadius for UIImageView have no Offscreen-Rendered, be m
 
 <br>
 ##CocoaPods:  
-未来会更新oc版
 ```
-pod 'ZYThumbnailTableView', '~> 0.2.1'
+pod 'ZYCornerRadius', '~> 0.3.1'
 ``` 
 
 <br>
