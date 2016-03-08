@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "ZYCornerRadius"
-  s.version      = "0.3.1"
+  s.version      = "0.4.1"
   s.summary      = "A Category to make cornerRadius for UIImageView have no Offscreen-Rendered, be more efficiency."
 
   # This description is used to generate tags and improve search results.
@@ -80,7 +80,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/liuzhiyi1992/ZYCornerRadius.git", :tag => "0.3.1" }
+  s.source       = { :git => "https://github.com/liuzhiyi1992/ZYCornerRadius.git", :tag => "0.4.1" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -91,7 +91,7 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "ZYCornerRadiusImageView/CornerRadiusCategory/**/*.{h,m}"
+  s.source_files  = "ZYCornerRadius/CornerRadiusCategory/**/*.{h,m}"
   # s.exclude_files = "Classes/Exclude"
 
   # s.public_header_files = "Classes/**/*.h"
