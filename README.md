@@ -1,8 +1,10 @@
 # ZYCornerRadius
 A Category to make cornerRadius for UIImageView have no Offscreen-Rendered, be more efficiency  
+避免为UIImageView设置圆角时触发离屏渲染所带来的性能损耗，两种工作方式：Category和UIImageView子类。
 
 ![](https://img.shields.io/badge/pod-v0.3.1-blue.svg)
 ![](https://img.shields.io/badge/build-passing-brightgreen.svg)
+![](https://img.shields.io/badge/language-objc-5787e5.svg)
 ![](https://img.shields.io/badge/license-MIT-brightgreen.svg)  
 
 
