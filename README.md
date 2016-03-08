@@ -26,7 +26,7 @@ pod 'ZYCornerRadius', '~> 0.3.1'
 + (UIImageView *)roundingRectImageView;
 - (instancetype)initWithRoundingRectImageView;
 ```  
-直接为调用者UIImageView设置圆角图片，传入UIImage，圆角半径和圆角类型  
+直接为UIImageView设置圆角图片，传入UIImage，圆角半径和圆角类型，当次有效  
 ```objc
 - (void)zy_cornerRadiusWithImage:(UIImage *)image cornerRadius:(CGFloat)cornerRadius rectCornerType:(UIRectCorner)rectCornerType;
 ```  
