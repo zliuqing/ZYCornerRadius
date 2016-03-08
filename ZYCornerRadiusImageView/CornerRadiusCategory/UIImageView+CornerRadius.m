@@ -17,10 +17,10 @@ static const void *IndieBandNameKey = &IndieBandNameKey;
 
 @implementation UIImageView (CornerRadius)
 //失败经历：尝试重写setImage
-            //尝试重写init
-            //最坏的打算，用swizzleMethod(难度大，不简洁)
-            //重写setimage
-            //尝试在layoutSubviews里完成，先调用setImage，再layoutSubviews,ok了（但是在category里重写方法，全局都在调用）
+//尝试重写init
+//最坏的打算，用swizzleMethod(难度大，不简洁)
+//重写setimage
+//尝试在layoutSubviews里完成，先调用setImage，再layoutSubviews,ok了（但是在category里重写方法，全局都在调用）
 
 //避免marksToBounds，只能用coreGraphics破坏性地裁剪
 
@@ -80,10 +80,35 @@ static const void *IndieBandNameKey = &IndieBandNameKey;
     CGSize cornerRadii = CGSizeMake(cornerRadius, cornerRadius);
     
     UIGraphicsBeginImageContextWithOptions(size, NO, scale);
+    if (nil == UIGraphicsGetCurrentContext()) {
+        return;
+    }
     UIBezierPath *cornerPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:rectCornerType cornerRadii:cornerRadii];
     [cornerPath addClip];
     [image drawInRect:self.bounds];
-    self.image = UIGraphicsGetImageFromCurrentImageContext();
+    self.layer.contents = (__bridge id _Nullable)(UIGraphicsGetImageFromCurrentImageContext().CGImage);
+    UIGraphicsEndImageContext();
+}
+
+/**
+ * @brief clip the cornerRadius with image, draw the backgroundColor you want, UIImageView must be setFrame before, no off-screen-rendered, no Color Blended layers
+ */
+- (void)zy_cornerRadiusWithImage:(UIImage *)image cornerRadius:(CGFloat)cornerRadius rectCornerType:(UIRectCorner)rectCornerType backgroundColor:(UIColor *)backgroundColor {
+    CGSize size = self.bounds.size;
+    CGFloat scale = [UIScreen mainScreen].scale;
+    CGSize cornerRadii = CGSizeMake(cornerRadius, cornerRadius);
+    
+    UIGraphicsBeginImageContextWithOptions(size, YES, scale);
+    if (nil == UIGraphicsGetCurrentContext()) {
+        return;
+    }
+    UIBezierPath *cornerPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:rectCornerType cornerRadii:cornerRadii];
+    UIBezierPath *backgroundRect = [UIBezierPath bezierPathWithRect:self.bounds];
+    [backgroundColor setFill];
+    [backgroundRect fill];
+    [cornerPath addClip];
+    [image drawInRect:self.bounds];
+    self.layer.contents = (__bridge id _Nullable)(UIGraphicsGetImageFromCurrentImageContext().CGImage);
     UIGraphicsEndImageContext();
 }
 
@@ -97,6 +122,8 @@ static const void *IndieBandNameKey = &IndieBandNameKey;
     
     
     [self.class swizzleMethod:@selector(layoutSubviews) anotherMethod:@selector(zy_LayoutSubviews)];
+    
+    [self addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 /**
@@ -129,6 +156,29 @@ static const void *IndieBandNameKey = &IndieBandNameKey;
         [self zy_cornerRadiusWithImage:self.image cornerRadius:self.frame.size.width/2 rectCornerType:UIRectCornerAllCorners];
     } else if (nil != radius && nil != roundingCorners && nil != self.image) {
         [self zy_cornerRadiusWithImage:self.image cornerRadius:radius.floatValue rectCornerType:roundingCorners.unsignedLongValue];
+    }
+}
+
+- (void)dealloc {
+    [self removeObserver:self forKeyPath:@"image"];
+}
+
+
+#pragma mark - KVO for .image
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"image"]) {
+        UIImage *newImage = change[NSKeyValueChangeNewKey];
+        NSNumber *radius = objc_getAssociatedObject(self, &kRadius);
+        NSNumber *roundingCorners = objc_getAssociatedObject(self, &kRoundingCorners);
+        NSNumber *roundingRect = objc_getAssociatedObject(self, &kIsRounding);
+        if (1 == roundingRect.intValue) {
+            [self zy_cornerRadiusWithImage:newImage cornerRadius:self.frame.size.width/2 rectCornerType:UIRectCornerAllCorners];
+        } else if (nil != radius && nil != roundingCorners && nil != self.image) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self zy_cornerRadiusWithImage:newImage cornerRadius:radius.floatValue rectCornerType:roundingCorners.unsignedLongValue];
+            });
+        }
     }
 }
 
