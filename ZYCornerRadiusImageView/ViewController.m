@@ -37,8 +37,8 @@
 //    imageView.image = [UIImage imageNamed:@"mac_dog"];
     
     
-//    UIImageView *imageView = [[UIImageView alloc] initWithCornerRadiusAdvance:100.0f rectCornerType:UIRectCornerAllCorners];
-//    imageView.image = [UIImage imageNamed:@"mac_dog"];
+    UIImageView *imageView = [[UIImageView alloc] initWithCornerRadiusAdvance:100.0f rectCornerType:UIRectCornerAllCorners];
+    imageView.image = [UIImage imageNamed:@"mac_dog"];
     
     
 #pragma mark - (with image)圆角一次性有效
@@ -71,9 +71,9 @@
     
     
     
-    ZYImageView *imageView = [[ZYImageView alloc] initWithRoundingRectImageView];
-    imageView.image = [UIImage imageNamed:@"mac_dog"];
-    [imageView zy_cornerRadiusAdvance:30.0f rectCornerType:UIRectCornerAllCorners];
+//    ZYImageView *imageView = [[ZYImageView alloc] initWithRoundingRectImageView];
+//    imageView.image = [UIImage imageNamed:@"mac_dog"];
+//    [imageView zy_cornerRadiusAdvance:30.0f rectCornerType:UIRectCornerAllCorners];
     
     
     
