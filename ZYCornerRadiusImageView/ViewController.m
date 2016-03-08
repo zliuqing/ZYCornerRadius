@@ -22,8 +22,11 @@
     
     
     
+#pragma notification --- 本工具提供两种使用方式，UIImageView+CornerRadius较方便，若不喜欢使用Category方式则可以使用ZYImageView。
     
-    #pragma mark - UIImageView+CornerRadius
+    
+    
+    #pragma mark --- UIImageView+CornerRadius
 #pragma mark - 圆形
     UIImageView *imageView = [[UIImageView alloc] initWithRoundingRectImageView];
     imageView.image = [UIImage imageNamed:@"mac_dog"];
@@ -59,7 +62,7 @@
     
     
 
-    #pragma mark - ZYImageView
+    #pragma mark --- ZYImageView
     
 //    ZYImageView *imageView = [[ZYImageView alloc] init];
 //    [imageView zy_cornerRadiusAdvance:100.0f rectCornerType:UIRectCornerAllCorners];
