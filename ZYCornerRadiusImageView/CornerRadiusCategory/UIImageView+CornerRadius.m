@@ -17,7 +17,8 @@ const char kHadAddObserver;
 static const void *IndieBandNameKey = &IndieBandNameKey;
 
 @implementation UIImageView (CornerRadius)
-//失败经历：尝试重写setImage
+
+//失败经历：drawRect
 //尝试重写init
 //最坏的打算，用swizzleMethod(难度大，不简洁)
 //重写setimage
@@ -33,7 +34,7 @@ static const void *IndieBandNameKey = &IndieBandNameKey;
 /**
  * @brief create Rounding UIImageView, no off-screen-rendered
  */
-+ (UIImageView *)roundingRectImageView {
++ (UIImageView *)zy_roundingRectImageView {
     UIImageView *imageView = [[UIImageView alloc] init];
     [imageView zy_cornerRadiusRoundingRect];
     return imageView;
@@ -53,7 +54,7 @@ static const void *IndieBandNameKey = &IndieBandNameKey;
 /**
  * @brief create UIImageView with cornerRadius, no off-screen-rendered
  */
-+ (UIImageView *)cornerRadiusAdvance:(CGFloat)cornerRadius rectCornerType:(UIRectCorner)rectCornerType {
++ (UIImageView *)zy_cornerRadiusAdvance:(CGFloat)cornerRadius rectCornerType:(UIRectCorner)rectCornerType {
     UIImageView *imageView = [[UIImageView alloc] init];
     [imageView zy_cornerRadiusAdvance:cornerRadius rectCornerType:rectCornerType];
     return imageView;

@@ -75,7 +75,7 @@
     
     
     
-//    ZYImageView *imageView = [ZYImageView cornerRadiusAdvance:100.0f rectCornerType:UIRectCornerAllCorners];
+//    ZYImageView *imageView = [ZYImageView zy_cornerRadiusAdvance:100.0f rectCornerType:UIRectCornerAllCorners];
 //    imageView.image = [UIImage imageNamed:@"mac_dog"];
     
     
@@ -107,3 +107,5 @@
 }
 
 @end
+
+

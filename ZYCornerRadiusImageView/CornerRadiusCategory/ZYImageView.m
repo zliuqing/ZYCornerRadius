@@ -18,7 +18,7 @@
 /**
  * @brief create Rounding ZYImageView, no off-screen-rendered
  */
-+ (ZYImageView *)roundingRectImageView {
++ (ZYImageView *)zy_roundingRectImageView {
     ZYImageView *imageView = [[ZYImageView alloc] init];
     [imageView zy_cornerRadiusRoundingRect];
     return imageView;
@@ -38,7 +38,7 @@
 /**
  * @brief create ZYImageView with cornerRadius, no off-screen-rendered
  */
-+ (ZYImageView *)cornerRadiusAdvance:(CGFloat)cornerRadius rectCornerType:(UIRectCorner)rectCornerType {
++ (ZYImageView *)zy_cornerRadiusAdvance:(CGFloat)cornerRadius rectCornerType:(UIRectCorner)rectCornerType {
     ZYImageView *imageView = [[ZYImageView alloc] init];
     [imageView zy_cornerRadiusAdvance:cornerRadius rectCornerType:rectCornerType];
     return imageView;

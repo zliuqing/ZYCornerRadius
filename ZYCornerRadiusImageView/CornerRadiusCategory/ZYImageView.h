@@ -17,13 +17,13 @@
 
 
 
-+ (ZYImageView *)cornerRadiusAdvance:(CGFloat)cornerRadius rectCornerType:(UIRectCorner)rectCornerType;
++ (ZYImageView *)zy_cornerRadiusAdvance:(CGFloat)cornerRadius rectCornerType:(UIRectCorner)rectCornerType;
 
 - (instancetype)initWithCornerRadiusAdvance:(CGFloat)cornerRadius rectCornerType:(UIRectCorner)rectCornerType;
 
 - (void)zy_cornerRadiusAdvance:(CGFloat)cornerRadius rectCornerType:(UIRectCorner)rectCornerType;
 
-+ (ZYImageView *)roundingRectImageView;
++ (ZYImageView *)zy_roundingRectImageView;
 
 - (instancetype)initWithRoundingRectImageView;
 
