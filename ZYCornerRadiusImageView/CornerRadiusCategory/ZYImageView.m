@@ -10,14 +10,13 @@
 
 @implementation ZYImageView
 
-//-setImage并不会调用-layoutSubView,不担心死循环
 
 
 
 
 
 /**
- * @brief create Rounding UIImageView, no off-screen-rendered
+ * @brief create Rounding ZYImageView, no off-screen-rendered
  */
 + (ZYImageView *)roundingRectImageView {
     ZYImageView *imageView = [[ZYImageView alloc] init];
@@ -26,7 +25,7 @@
 }
 
 /**
- * @brief init the Rounding UIImageView, no off-screen-rendered
+ * @brief init the Rounding ZYImageView, no off-screen-rendered
  */
 - (instancetype)initWithRoundingRectImageView {
     self = [super init];
@@ -37,7 +36,7 @@
 }
 
 /**
- * @brief create UIImageView with cornerRadius, no off-screen-rendered
+ * @brief create ZYImageView with cornerRadius, no off-screen-rendered
  */
 + (ZYImageView *)cornerRadiusAdvance:(CGFloat)cornerRadius rectCornerType:(UIRectCorner)rectCornerType {
     ZYImageView *imageView = [[ZYImageView alloc] init];
@@ -46,7 +45,7 @@
 }
 
 /**
- * @brief init the UIImageView with cornerRadius, no off-screen-rendered
+ * @brief init the ZYImageView with cornerRadius, no off-screen-rendered
  */
 - (instancetype)initWithCornerRadiusAdvance:(CGFloat)cornerRadius rectCornerType:(UIRectCorner)rectCornerType {
     self = [super init];
@@ -58,7 +57,7 @@
 
 #pragma mark - Kernel
 /**
- * @brief clip the cornerRadius with image, UIImageView must be setFrame before, no off-screen-rendered
+ * @brief clip the cornerRadius with image, ZYImageView must be setFrame before, no off-screen-rendered
  */
 - (void)zy_cornerRadiusWithImage:(UIImage *)image cornerRadius:(CGFloat)cornerRadius rectCornerType:(UIRectCorner)rectCornerType {
     CGSize size = self.bounds.size;
@@ -66,27 +65,60 @@
     CGSize cornerRadii = CGSizeMake(cornerRadius, cornerRadius);
     
     UIGraphicsBeginImageContextWithOptions(size, NO, scale);
+    if (nil == UIGraphicsGetCurrentContext()) {
+        return;
+    }
     UIBezierPath *cornerPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:rectCornerType cornerRadii:cornerRadii];
     [cornerPath addClip];
     [image drawInRect:self.bounds];
-    self.image = UIGraphicsGetImageFromCurrentImageContext();
+    self.layer.contents = (__bridge id _Nullable)(UIGraphicsGetImageFromCurrentImageContext().CGImage);
     UIGraphicsEndImageContext();
 }
 
 /**
- * @brief set cornerRadius for UIImageView, no off-screen-rendered
+ * @brief clip the cornerRadius with image, draw the backgroundColor you want, ZYImageView must be setFrame before, no off-screen-rendered, no Color Blended layers
+ */
+- (void)zy_cornerRadiusWithImage:(UIImage *)image cornerRadius:(CGFloat)cornerRadius rectCornerType:(UIRectCorner)rectCornerType backgroundColor:(UIColor *)backgroundColor {
+    CGSize size = self.bounds.size;
+    CGFloat scale = [UIScreen mainScreen].scale;
+    CGSize cornerRadii = CGSizeMake(cornerRadius, cornerRadius);
+    
+    UIGraphicsBeginImageContextWithOptions(size, YES, scale);
+    if (nil == UIGraphicsGetCurrentContext()) {
+        return;
+    }
+    UIBezierPath *cornerPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:rectCornerType cornerRadii:cornerRadii];
+    UIBezierPath *backgroundRect = [UIBezierPath bezierPathWithRect:self.bounds];
+    [backgroundColor setFill];
+    [backgroundRect fill];
+    [cornerPath addClip];
+    [image drawInRect:self.bounds];
+    self.layer.contents = (__bridge id _Nullable)(UIGraphicsGetImageFromCurrentImageContext().CGImage);
+    UIGraphicsEndImageContext();
+}
+
+/**
+ * @brief set cornerRadius for ZYImageView, no off-screen-rendered
  */
 - (void)zy_cornerRadiusAdvance:(CGFloat)cornerRadius rectCornerType:(UIRectCorner)rectCornerType {
     self.cornerRadius = cornerRadius;
     self.rectCornerType = rectCornerType;
     self.isRounding = NO;
+    if (!_hadAddObserver) {
+        [self addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:nil];
+        self.hadAddObserver = YES;
+    }
 }
 
 /**
- * @brief become Rounding UIImageView, no off-screen-rendered
+ * @brief become Rounding ZYImageView, no off-screen-rendered
  */
 - (void)zy_cornerRadiusRoundingRect {
     self.isRounding = YES;
+    if (!_hadAddObserver) {
+        [self addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:nil];
+        self.hadAddObserver = YES;
+    }
 }
 
 - (void)layoutSubviews {
@@ -95,6 +127,28 @@
         [self zy_cornerRadiusWithImage:self.image cornerRadius:self.frame.size.width/2 rectCornerType:UIRectCornerAllCorners];
     } else if (0 != _cornerRadius && _rectCornerType && nil != self.image) {
         [self zy_cornerRadiusWithImage:self.image cornerRadius:_cornerRadius rectCornerType:_rectCornerType];
+    }
+}
+
+- (void)dealloc {
+    if (_hadAddObserver) {
+        [self removeObserver:self forKeyPath:@"image"];
+    }
+}
+
+
+#pragma mark - KVO for .image
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"image"]) {
+        UIImage *newImage = change[NSKeyValueChangeNewKey];
+        if (_isRounding) {
+            [self zy_cornerRadiusWithImage:newImage cornerRadius:self.frame.size.width/2 rectCornerType:UIRectCornerAllCorners];
+        } else if (0 != _cornerRadius && _rectCornerType && nil != self.image) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self zy_cornerRadiusWithImage:newImage cornerRadius:_cornerRadius rectCornerType:_rectCornerType];
+            });
+        }
     }
 }
 

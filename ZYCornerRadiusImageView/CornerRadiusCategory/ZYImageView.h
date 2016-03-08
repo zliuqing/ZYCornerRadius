@@ -13,6 +13,7 @@
 @property (assign ,nonatomic) CGFloat cornerRadius;
 @property (assign, nonatomic) UIRectCorner rectCornerType;
 @property (assign, nonatomic) BOOL isRounding;
+@property (assign, nonatomic) BOOL hadAddObserver;
 
 
 
@@ -29,5 +30,7 @@
 - (void)zy_cornerRadiusRoundingRect;
 
 - (void)zy_cornerRadiusWithImage:(UIImage *)image cornerRadius:(CGFloat)cornerRadius rectCornerType:(UIRectCorner)rectCornerType;
+
+- (void)zy_cornerRadiusWithImage:(UIImage *)image cornerRadius:(CGFloat)cornerRadius rectCornerType:(UIRectCorner)rectCornerType backgroundColor:(UIColor *)backgroundColor;
 
 @end
