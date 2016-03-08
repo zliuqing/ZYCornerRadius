@@ -87,4 +87,4 @@ imageView.image = [UIImage imageNamed:@"mac_dog"];
 
 <br>
 ##License:  
-ZYThumbnailTableView is released under the MIT license. See LICENSE for details.
+ZYCornerRadius is released under the MIT license. See LICENSE for details.
