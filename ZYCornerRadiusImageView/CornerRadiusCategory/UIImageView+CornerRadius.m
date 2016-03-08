@@ -12,6 +12,7 @@
 const char kRadius;
 const char kRoundingCorners;
 const char kIsRounding;
+const char kHadAddObserver;
 
 static const void *IndieBandNameKey = &IndieBandNameKey;
 
@@ -120,10 +121,13 @@ static const void *IndieBandNameKey = &IndieBandNameKey;
     objc_setAssociatedObject(self, &kRoundingCorners, @(rectCornerType), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     objc_setAssociatedObject(self, &kIsRounding, @(0), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
-    
     [self.class swizzleMethod:@selector(layoutSubviews) anotherMethod:@selector(zy_LayoutSubviews)];
     
-    [self addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:nil];
+    BOOL hadAddObserver = [objc_getAssociatedObject(self, &kHadAddObserver) boolValue];
+    if (!hadAddObserver) {
+        [self addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:nil];
+        objc_setAssociatedObject(self, &kHadAddObserver, @(1), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
 }
 
 /**
@@ -133,6 +137,12 @@ static const void *IndieBandNameKey = &IndieBandNameKey;
     objc_setAssociatedObject(self, &kIsRounding, @(1), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
     [self.class swizzleMethod:@selector(layoutSubviews) anotherMethod:@selector(zy_LayoutSubviews)];
+    
+    BOOL hadAddObserver = [objc_getAssociatedObject(self, &kHadAddObserver) boolValue];
+    if (!hadAddObserver) {
+        [self addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:nil];
+        objc_setAssociatedObject(self, &kHadAddObserver, @(1), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
 }
 
 
@@ -160,7 +170,10 @@ static const void *IndieBandNameKey = &IndieBandNameKey;
 }
 
 - (void)dealloc {
-    [self removeObserver:self forKeyPath:@"image"];
+    BOOL hadAddObserver = [objc_getAssociatedObject(self, &kHadAddObserver) boolValue];
+    if (hadAddObserver) {
+        [self removeObserver:self forKeyPath:@"image"];
+    }
 }
 
 
