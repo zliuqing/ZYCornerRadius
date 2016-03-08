@@ -63,7 +63,7 @@ imageView.image = [UIImage imageNamed:@"mac_dog"];
 使用方式同理  
 
 
-
+<br>
 <br>
 ##以下列出ZYCornerRadius所开放的主要的func:  
 配置一个圆角UIImageView，传入圆角半径和圆角类型  
