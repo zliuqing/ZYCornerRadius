@@ -276,8 +276,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "$(SRCROOT)/ZYCornerRadius/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.lzy.ZYCornerRadiusImageView;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lzy.ZYCornerRadius;
 				PRODUCT_NAME = ZYCornerRadius;
 			};
 			name = Debug;
@@ -287,8 +288,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "$(SRCROOT)/ZYCornerRadius/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.lzy.ZYCornerRadiusImageView;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lzy.ZYCornerRadius;
 				PRODUCT_NAME = ZYCornerRadius;
 			};
 			name = Release;
