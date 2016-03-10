@@ -183,6 +183,9 @@ static const void *IndieBandNameKey = &IndieBandNameKey;
 {
     if ([keyPath isEqualToString:@"image"]) {
         UIImage *newImage = change[NSKeyValueChangeNewKey];
+        if ([newImage isMemberOfClass:[NSNull class]]) {
+            return;
+        }
         NSNumber *radius = objc_getAssociatedObject(self, &kRadius);
         NSNumber *roundingCorners = objc_getAssociatedObject(self, &kRoundingCorners);
         NSNumber *roundingRect = objc_getAssociatedObject(self, &kIsRounding);
