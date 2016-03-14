@@ -13,6 +13,7 @@ const char kRadius;
 const char kRoundingCorners;
 const char kIsRounding;
 const char kHadAddObserver;
+const char kProcessedImage;
 
 static const void *IndieBandNameKey = &IndieBandNameKey;
 
@@ -88,7 +89,9 @@ static const void *IndieBandNameKey = &IndieBandNameKey;
     UIBezierPath *cornerPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:rectCornerType cornerRadii:cornerRadii];
     [cornerPath addClip];
     [image drawInRect:self.bounds];
-    self.layer.contents = (__bridge id _Nullable)(UIGraphicsGetImageFromCurrentImageContext().CGImage);
+    UIImage *processedImage = UIGraphicsGetImageFromCurrentImageContext();
+    objc_setAssociatedObject(processedImage, &kProcessedImage, @(1), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    self.image = processedImage;
     UIGraphicsEndImageContext();
 }
 
@@ -110,7 +113,9 @@ static const void *IndieBandNameKey = &IndieBandNameKey;
     [backgroundRect fill];
     [cornerPath addClip];
     [image drawInRect:self.bounds];
-    self.layer.contents = (__bridge id _Nullable)(UIGraphicsGetImageFromCurrentImageContext().CGImage);
+    UIImage *processedImage = UIGraphicsGetImageFromCurrentImageContext();
+    objc_setAssociatedObject(processedImage, &kProcessedImage, @(1), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    self.image = processedImage;
     UIGraphicsEndImageContext();
 }
 
@@ -184,6 +189,8 @@ static const void *IndieBandNameKey = &IndieBandNameKey;
     if ([keyPath isEqualToString:@"image"]) {
         UIImage *newImage = change[NSKeyValueChangeNewKey];
         if ([newImage isMemberOfClass:[NSNull class]]) {
+            return;
+        } else if ([objc_getAssociatedObject(newImage, &kProcessedImage) intValue] == 1) {
             return;
         }
         NSNumber *radius = objc_getAssociatedObject(self, &kRadius);

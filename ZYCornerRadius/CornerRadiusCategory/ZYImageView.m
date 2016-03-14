@@ -7,11 +7,11 @@
 //
 
 #import "ZYImageView.h"
+#import <objc/runtime.h>
+
+const char kZYProcessedImage;
 
 @implementation ZYImageView
-
-
-
 
 
 
@@ -71,7 +71,9 @@
     UIBezierPath *cornerPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:rectCornerType cornerRadii:cornerRadii];
     [cornerPath addClip];
     [image drawInRect:self.bounds];
-    self.layer.contents = (__bridge id _Nullable)(UIGraphicsGetImageFromCurrentImageContext().CGImage);
+    UIImage *processedImage = UIGraphicsGetImageFromCurrentImageContext();
+    objc_setAssociatedObject(processedImage, &kZYProcessedImage, @(1), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    self.image = processedImage;
     UIGraphicsEndImageContext();
 }
 
@@ -93,7 +95,9 @@
     [backgroundRect fill];
     [cornerPath addClip];
     [image drawInRect:self.bounds];
-    self.layer.contents = (__bridge id _Nullable)(UIGraphicsGetImageFromCurrentImageContext().CGImage);
+    UIImage *processedImage = UIGraphicsGetImageFromCurrentImageContext();
+    objc_setAssociatedObject(processedImage, &kZYProcessedImage, @(1), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    self.image = processedImage;
     UIGraphicsEndImageContext();
 }
 
@@ -142,6 +146,11 @@
 {
     if ([keyPath isEqualToString:@"image"]) {
         UIImage *newImage = change[NSKeyValueChangeNewKey];
+        if ([newImage isMemberOfClass:[NSNull class]]) {
+            return;
+        } else if ([objc_getAssociatedObject(newImage, &kZYProcessedImage) intValue] == 1) {
+            return;
+        }
         if (_isRounding) {
             [self zy_cornerRadiusWithImage:newImage cornerRadius:self.frame.size.width/2 rectCornerType:UIRectCornerAllCorners];
         } else if (0 != _cornerRadius && _rectCornerType && nil != self.image) {
