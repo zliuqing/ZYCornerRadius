@@ -2,7 +2,7 @@
 A Category to make cornerRadius for UIImageView have no Offscreen-Rendered, be more efficiency  
 避免为UIImageView设置圆角时触发离屏渲染所带来的性能损耗，两种工作方式：Category和UIImageView子类。
 
-![](https://img.shields.io/badge/pod-v0.5.1-blue.svg)
+![](https://img.shields.io/badge/pod-v0.6.1-blue.svg)
 ![](https://img.shields.io/badge/build-passing-brightgreen.svg)
 ![](https://img.shields.io/badge/language-objc-5787e5.svg)
 ![](https://img.shields.io/badge/license-MIT-brightgreen.svg)  
@@ -13,7 +13,7 @@ A Category to make cornerRadius for UIImageView have no Offscreen-Rendered, be m
 <br>
 ##CocoaPods:  
 ```
-pod 'ZYCornerRadius', '~> 0.5.1'
+pod 'ZYCornerRadius', '~> 0.6.1'
 ``` 
 
 <br>
@@ -89,6 +89,11 @@ imageView.image = [UIImage imageNamed:@"mac_dog"];
 - (void)zy_cornerRadiusWithImage:(UIImage *)image cornerRadius:(CGFloat)cornerRadius rectCornerType:(UIRectCorner)rectCornerType;
 ```  
 
+<br>  
+##iteration:  
+0.6.1 - 解决在TableViewCell被selected后，其中UIImageView的image被重置的问题  
+0.5.1 - 解决SDWebImage使用placeholder为nil时发生的crash  
+0.4.1 - 发布第一个较完善版本
 
 
 <br>
