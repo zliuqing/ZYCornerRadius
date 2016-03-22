@@ -82,17 +82,22 @@ static const void *IndieBandNameKey = &IndieBandNameKey;
     CGFloat scale = [UIScreen mainScreen].scale;
     CGSize cornerRadii = CGSizeMake(cornerRadius, cornerRadius);
     
-    UIGraphicsBeginImageContextWithOptions(size, NO, scale);
-    if (nil == UIGraphicsGetCurrentContext()) {
-        return;
-    }
-    UIBezierPath *cornerPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:rectCornerType cornerRadii:cornerRadii];
-    [cornerPath addClip];
-    [image drawInRect:self.bounds];
-    UIImage *processedImage = UIGraphicsGetImageFromCurrentImageContext();
-    objc_setAssociatedObject(processedImage, &kProcessedImage, @(1), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    self.image = processedImage;
-    UIGraphicsEndImageContext();
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        UIGraphicsBeginImageContextWithOptions(size, NO, scale);
+        if (nil == UIGraphicsGetCurrentContext()) {
+            return;
+        }
+        UIBezierPath *cornerPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:rectCornerType cornerRadii:cornerRadii];
+        [cornerPath addClip];
+        [image drawInRect:self.bounds];
+        UIImage *processedImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            objc_setAssociatedObject(processedImage, &kProcessedImage, @(1), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+            self.image = processedImage;
+        });
+    });
 }
 
 /**
@@ -103,20 +108,25 @@ static const void *IndieBandNameKey = &IndieBandNameKey;
     CGFloat scale = [UIScreen mainScreen].scale;
     CGSize cornerRadii = CGSizeMake(cornerRadius, cornerRadius);
     
-    UIGraphicsBeginImageContextWithOptions(size, YES, scale);
-    if (nil == UIGraphicsGetCurrentContext()) {
-        return;
-    }
-    UIBezierPath *cornerPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:rectCornerType cornerRadii:cornerRadii];
-    UIBezierPath *backgroundRect = [UIBezierPath bezierPathWithRect:self.bounds];
-    [backgroundColor setFill];
-    [backgroundRect fill];
-    [cornerPath addClip];
-    [image drawInRect:self.bounds];
-    UIImage *processedImage = UIGraphicsGetImageFromCurrentImageContext();
-    objc_setAssociatedObject(processedImage, &kProcessedImage, @(1), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    self.image = processedImage;
-    UIGraphicsEndImageContext();
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        UIGraphicsBeginImageContextWithOptions(size, YES, scale);
+        if (nil == UIGraphicsGetCurrentContext()) {
+            return;
+        }
+        UIBezierPath *cornerPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:rectCornerType cornerRadii:cornerRadii];
+        UIBezierPath *backgroundRect = [UIBezierPath bezierPathWithRect:self.bounds];
+        [backgroundColor setFill];
+        [backgroundRect fill];
+        [cornerPath addClip];
+        [image drawInRect:self.bounds];
+        UIImage *processedImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+            
+        dispatch_async(dispatch_get_main_queue(), ^{
+            objc_setAssociatedObject(processedImage, &kProcessedImage, @(1), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+            self.image = processedImage;
+        });
+    });
 }
 
 /**
