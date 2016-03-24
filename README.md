@@ -99,7 +99,7 @@ imageView.image = [UIImage imageNamed:@"mac_dog"];
 <br>
 ##Relation:  
 [@liuzhiyi1992](https://github.com/liuzhiyi1992) on Github  
-[@Blog](http://zyden.vicp.cc/)  
+[@Blog](http://zyden.vicp.cc/)  Welcome
 
 <br>
 ##License:  
