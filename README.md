@@ -1,4 +1,4 @@
-# ZYCornerRadius
+# ZYCornerRadius - 一句代码，圆角风雨无阻
 A Category to make cornerRadius for UIImageView have no Offscreen-Rendered, be more efficiency  
 避免为UIImageView设置圆角时触发离屏渲染所带来的性能损耗，两种工作方式：Category和UIImageView子类。
 
