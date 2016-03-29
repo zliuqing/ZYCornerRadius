@@ -21,6 +21,9 @@ pod 'ZYCornerRadius', '~> 0.6.1'
 测试设备6P，屏幕中有40张尺寸为20*20的小图片，使用masksToBounds切角处理时帧率大大下降至20+，使用ZYCornerRadius时帧率保持在57+，性能接近0损耗。  
 ![](https://raw.githubusercontent.com/liuzhiyi1992/MyStore/master/ZYCornerRadius/ZYCornerRadius%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94.png)    
 
+内存使用对比:  
+![](https://raw.githubusercontent.com/liuzhiyi1992/MyStore/master/ZYCornerRadius/%E5%86%85%E5%AD%98%E4%BD%BF%E7%94%A8%E5%AF%B9%E6%AF%94.jpg)  
+
 
 
 <br>
