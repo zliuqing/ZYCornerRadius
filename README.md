@@ -16,7 +16,6 @@ A Category to make cornerRadius for UIImageView have no Offscreen-Rendered, be m
 </p>
 <br>
 
-<br>
 ##CocoaPods:  
 ```
 pod 'ZYCornerRadius', '~> 0.6.1'
