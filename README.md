@@ -1,14 +1,20 @@
-# ZYCornerRadius - 一句代码，圆角风雨无阻
+<h1 align="center">
+ZYCornerRadius <br>
+一句代码，圆角风雨无阻
+<h5 align="center">
 A Category to make cornerRadius for UIImageView have no Offscreen-Rendered, be more efficiency  
 避免为UIImageView设置圆角时触发离屏渲染所带来的性能损耗，两种工作方式：Category和UIImageView子类。
+</h5>
+</h1>
+<br>
+<p align="center">
+<img src="https://img.shields.io/badge/pod-v0.6.1-blue.svg" />
+<img src="https://img.shields.io/badge/build-passing-brightgreen.svg" />
+<img src="https://img.shields.io/badge/language-objc-5787e5.svg" />
+<img src="https://img.shields.io/badge/license-MIT-brightgreen.svg" />
 
-![](https://img.shields.io/badge/pod-v0.6.1-blue.svg)
-![](https://img.shields.io/badge/build-passing-brightgreen.svg)
-![](https://img.shields.io/badge/language-objc-5787e5.svg)
-![](https://img.shields.io/badge/license-MIT-brightgreen.svg)  
-
-
-
+</p>
+<br>
 
 <br>
 ##CocoaPods:  
