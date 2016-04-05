@@ -1,16 +1,22 @@
-# ZYCornerRadius - 一句代码，圆角风雨无阻
+<h1 align="center">
+ZYCornerRadius <br>
+一句代码，圆角风雨无阻
+<h5 align="center">
 A Category to make cornerRadius for UIImageView have no Offscreen-Rendered, be more efficiency  
 避免为UIImageView设置圆角时触发离屏渲染所带来的性能损耗，两种工作方式：Category和UIImageView子类。
-
-![](https://img.shields.io/badge/pod-v0.6.1-blue.svg)
-![](https://img.shields.io/badge/build-passing-brightgreen.svg)
-![](https://img.shields.io/badge/language-objc-5787e5.svg)
-![](https://img.shields.io/badge/license-MIT-brightgreen.svg)  
-
-
-
-
+</h5>
+</h1>
 <br>
+<p align="center">
+<img src="https://img.shields.io/badge/pod-v0.6.1-blue.svg" />
+<img src="https://img.shields.io/badge/build-passing-brightgreen.svg" />
+<img src="https://img.shields.io/badge/language-objc-5787e5.svg" />
+<img src="https://img.shields.io/badge/Advantage-Efficient-red.svg" />
+<img src="https://img.shields.io/badge/license-MIT-brightgreen.svg" />
+
+</p>
+<br>
+
 ##CocoaPods:  
 ```
 pod 'ZYCornerRadius', '~> 0.6.1'
@@ -20,6 +26,9 @@ pod 'ZYCornerRadius', '~> 0.6.1'
 ##性能对比:  
 测试设备6P，屏幕中有40张尺寸为20*20的小图片，使用masksToBounds切角处理时帧率大大下降至20+，使用ZYCornerRadius时帧率保持在57+，性能接近0损耗。  
 ![](https://raw.githubusercontent.com/liuzhiyi1992/MyStore/master/ZYCornerRadius/ZYCornerRadius%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94.png)    
+
+内存使用对比:  
+![](https://raw.githubusercontent.com/liuzhiyi1992/MyStore/master/ZYCornerRadius/%E5%86%85%E5%AD%98%E4%BD%BF%E7%94%A8%E5%AF%B9%E6%AF%94.jpg)  
 
 
 
