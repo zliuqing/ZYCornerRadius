@@ -15,31 +15,25 @@ const char kIsRounding;
 const char kHadAddObserver;
 const char kProcessedImage;
 
-static const void *IndieBandNameKey = &IndieBandNameKey;
+const char kBorderWidth;
+const char kBorderColor;
+
+@interface UIImageView ()
+
+@property (assign, nonatomic) CGFloat radius;
+@property (assign, nonatomic) UIRectCorner roundingCorners;
+@property (assign, nonatomic) CGFloat borderWidth;
+@property (strong, nonatomic) UIColor *borderColor;
+@property (assign, nonatomic) BOOL hadAddObserver;
+@property (assign, nonatomic) BOOL isRounding;
+
+@end
+
+
+
+
 
 @implementation UIImageView (CornerRadius)
-
-//失败经历：drawRect
-//尝试重写init
-//最坏的打算，用swizzleMethod(难度大，不简洁)
-//重写setimage
-//尝试在layoutSubviews里完成，先调用setImage，再layoutSubviews,ok了（但是在category里重写方法，全局都在调用）
-
-//避免marksToBounds，只能用coreGraphics破坏性地裁剪
-
-
-
-
-
-
-/**
- * @brief create Rounding UIImageView, no off-screen-rendered
- */
-+ (UIImageView *)zy_roundingRectImageView {
-    UIImageView *imageView = [[UIImageView alloc] init];
-    [imageView zy_cornerRadiusRoundingRect];
-    return imageView;
-}
 
 /**
  * @brief init the Rounding UIImageView, no off-screen-rendered
@@ -53,15 +47,6 @@ static const void *IndieBandNameKey = &IndieBandNameKey;
 }
 
 /**
- * @brief create UIImageView with cornerRadius, no off-screen-rendered
- */
-+ (UIImageView *)zy_cornerRadiusAdvance:(CGFloat)cornerRadius rectCornerType:(UIRectCorner)rectCornerType {
-    UIImageView *imageView = [[UIImageView alloc] init];
-    [imageView zy_cornerRadiusAdvance:cornerRadius rectCornerType:rectCornerType];
-    return imageView;
-}
-
-/**
  * @brief init the UIImageView with cornerRadius, no off-screen-rendered
  */
 - (instancetype)initWithCornerRadiusAdvance:(CGFloat)cornerRadius rectCornerType:(UIRectCorner)rectCornerType {
@@ -72,6 +57,13 @@ static const void *IndieBandNameKey = &IndieBandNameKey;
     return self;
 }
 
+/**
+ * @brief attach border for UIImageView with width & color
+ */
+- (void)zy_attachBorderWidth:(CGFloat)width color:(UIColor *)color {
+    self.borderWidth = width;
+    self.borderColor = color;
+}
 
 #pragma mark - Kernel
 /**
@@ -89,6 +81,7 @@ static const void *IndieBandNameKey = &IndieBandNameKey;
     UIBezierPath *cornerPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:rectCornerType cornerRadii:cornerRadii];
     [cornerPath addClip];
     [image drawInRect:self.bounds];
+    [self drawBorder:cornerPath];
     UIImage *processedImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     objc_setAssociatedObject(processedImage, &kProcessedImage, @(1), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -113,6 +106,7 @@ static const void *IndieBandNameKey = &IndieBandNameKey;
     [backgroundRect fill];
     [cornerPath addClip];
     [image drawInRect:self.bounds];
+    [self drawBorder:cornerPath];
     UIImage *processedImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     objc_setAssociatedObject(processedImage, &kProcessedImage, @(1), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -123,16 +117,13 @@ static const void *IndieBandNameKey = &IndieBandNameKey;
  * @brief set cornerRadius for UIImageView, no off-screen-rendered
  */
 - (void)zy_cornerRadiusAdvance:(CGFloat)cornerRadius rectCornerType:(UIRectCorner)rectCornerType {
-    objc_setAssociatedObject(self, &kRadius, @(cornerRadius), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    objc_setAssociatedObject(self, &kRoundingCorners, @(rectCornerType), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    objc_setAssociatedObject(self, &kIsRounding, @(0), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    self.radius = cornerRadius;
+    self.roundingCorners = rectCornerType;
+    self.isRounding = NO;
     
-    [self.class swizzleMethod:@selector(layoutSubviews) anotherMethod:@selector(zy_LayoutSubviews)];
-    
-    BOOL hadAddObserver = [objc_getAssociatedObject(self, &kHadAddObserver) boolValue];
-    if (!hadAddObserver) {
+    if (!self.hadAddObserver) {
         [self addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:nil];
-        objc_setAssociatedObject(self, &kHadAddObserver, @(1), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        self.hadAddObserver = YES;
     }
 }
 
@@ -140,48 +131,28 @@ static const void *IndieBandNameKey = &IndieBandNameKey;
  * @brief become Rounding UIImageView, no off-screen-rendered
  */
 - (void)zy_cornerRadiusRoundingRect {
-    objc_setAssociatedObject(self, &kIsRounding, @(1), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    self.isRounding = YES;
     
-    [self.class swizzleMethod:@selector(layoutSubviews) anotherMethod:@selector(zy_LayoutSubviews)];
-    
-    BOOL hadAddObserver = [objc_getAssociatedObject(self, &kHadAddObserver) boolValue];
-    if (!hadAddObserver) {
+    if (!self.hadAddObserver) {
         [self addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:nil];
-        objc_setAssociatedObject(self, &kHadAddObserver, @(1), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        self.hadAddObserver = YES;
     }
 }
 
-
 #pragma mark - Private
-+ (void)swizzleMethod:(SEL)oneSel anotherMethod:(SEL)anotherSel {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        Method oneMethod = class_getInstanceMethod(self, oneSel);
-        Method anotherMethod = class_getInstanceMethod(self, anotherSel);
-        
-        method_exchangeImplementations(oneMethod, anotherMethod);
-    });
-}
-
-- (void)zy_LayoutSubviews {
-    [super layoutSubviews];
-    NSNumber *radius = objc_getAssociatedObject(self, &kRadius);
-    NSNumber *roundingCorners = objc_getAssociatedObject(self, &kRoundingCorners);
-    NSNumber *roundingRect = objc_getAssociatedObject(self, &kIsRounding);
-    if (1 == roundingRect.intValue) {
-        [self zy_cornerRadiusWithImage:self.image cornerRadius:self.frame.size.width/2 rectCornerType:UIRectCornerAllCorners];
-    } else if (nil != radius && nil != roundingCorners && nil != self.image) {
-        [self zy_cornerRadiusWithImage:self.image cornerRadius:radius.floatValue rectCornerType:roundingCorners.unsignedLongValue];
+- (void)drawBorder:(UIBezierPath *)path {
+    if (0 != self.borderWidth && nil != self.borderColor) {
+        [path setLineWidth:2 * self.borderWidth];
+        [self.borderColor setStroke];
+        [path stroke];
     }
 }
 
 - (void)dealloc {
-    BOOL hadAddObserver = [objc_getAssociatedObject(self, &kHadAddObserver) boolValue];
-    if (hadAddObserver) {
+    if (self.hadAddObserver) {
         [self removeObserver:self forKeyPath:@"image"];
     }
 }
-
 
 #pragma mark - KVO for .image
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -193,18 +164,65 @@ static const void *IndieBandNameKey = &IndieBandNameKey;
         } else if ([objc_getAssociatedObject(newImage, &kProcessedImage) intValue] == 1) {
             return;
         }
-        NSNumber *radius = objc_getAssociatedObject(self, &kRadius);
-        NSNumber *roundingCorners = objc_getAssociatedObject(self, &kRoundingCorners);
-        NSNumber *roundingRect = objc_getAssociatedObject(self, &kIsRounding);
-        if (1 == roundingRect.intValue) {
+        if (self.isRounding) {
             [self zy_cornerRadiusWithImage:newImage cornerRadius:self.frame.size.width/2 rectCornerType:UIRectCornerAllCorners];
-        } else if (nil != radius && nil != roundingCorners && nil != self.image) {
+        } else if (0 != self.radius && 0 != self.roundingCorners && nil != self.image) {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self zy_cornerRadiusWithImage:newImage cornerRadius:radius.floatValue rectCornerType:roundingCorners.unsignedLongValue];
+                [self zy_cornerRadiusWithImage:newImage cornerRadius:self.radius rectCornerType:self.roundingCorners];
             });
         }
     }
 }
+
+#pragma mark property
+- (CGFloat)borderWidth {
+    return [objc_getAssociatedObject(self, &kBorderWidth) floatValue];
+}
+
+- (void)setBorderWidth:(CGFloat)borderWidth {
+    objc_setAssociatedObject(self, &kBorderWidth, @(borderWidth), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (UIColor *)borderColor {
+    return objc_getAssociatedObject(self, &kBorderColor);
+}
+
+- (void)setBorderColor:(UIColor *)borderColor {
+    objc_setAssociatedObject(self, &kBorderColor, borderColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (BOOL)hadAddObserver {
+    return [objc_getAssociatedObject(self, &kHadAddObserver) boolValue];
+}
+
+- (void)setHadAddObserver:(BOOL)hadAddObserver {
+    objc_setAssociatedObject(self, &kHadAddObserver, @(hadAddObserver), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (BOOL)isRounding {
+    return [objc_getAssociatedObject(self, &kIsRounding) boolValue];
+}
+
+- (void)setIsRounding:(BOOL)isRounding {
+    objc_setAssociatedObject(self, &kIsRounding, @(isRounding), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (UIRectCorner)roundingCorners {
+    return [objc_getAssociatedObject(self, &kRoundingCorners) unsignedLongValue];
+}
+
+- (void)setRoundingCorners:(UIRectCorner)roundingCorners {
+    objc_setAssociatedObject(self, &kRoundingCorners, @(roundingCorners), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (CGFloat)radius {
+    return [objc_getAssociatedObject(self, &kRadius) floatValue];
+}
+
+- (void)setRadius:(CGFloat)radius {
+    objc_setAssociatedObject(self, &kRadius, @(radius), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
 
 
 @end

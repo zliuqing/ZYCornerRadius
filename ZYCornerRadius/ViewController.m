@@ -25,81 +25,30 @@
 #pragma notification --- 本工具提供两种使用方式，UIImageView+CornerRadius较方便，若不喜欢使用Category方式则可以使用ZYImageView。
     
     
-    
-    #pragma mark --- UIImageView+CornerRadius
 #pragma mark - 圆形
     UIImageView *imageView = [[UIImageView alloc] initWithRoundingRectImageView];
-    imageView.image = [UIImage imageNamed:@"mac_dog"];
-    
-    
-//    UIImageView *imageView = [[UIImageView alloc] init];
-//    [imageView zy_cornerRadiusRoundingRect];
-//    imageView.image = [UIImage imageNamed:@"mac_dog"];
-    
-
-#pragma mark - 圆角一直有效
-//    UIImageView *imageView = [[UIImageView alloc] init];
-//    [imageView zy_cornerRadiusAdvance:100.0f rectCornerType:UIRectCornerAllCorners];
-//    imageView.image = [UIImage imageNamed:@"mac_dog"];
-    
-    
-//    UIImageView *imageView = [[UIImageView alloc] initWithCornerRadiusAdvance:20.0f rectCornerType:UIRectCornerAllCorners];
-//    imageView.image = [UIImage imageNamed:@"mac_dog"];
-    
-    
-#pragma mark - (with image)圆角一次性有效
-    
-//    UIImageView *imageView = [[UIImageView alloc] init];
-//    [imageView setFrame:CGRectMake(100, 300, 200, 200)];
-//    //需先有Frame
-//    [imageView zy_cornerRadiusWithImage:[UIImage imageNamed:@"mac_dog"] cornerRadius:100.0f rectCornerType:UIRectCornerAllCorners];
-//    //当次有效，再次setImage则无圆角
-////    imageView.image = [UIImage imageNamed:@"mac_dog"];
-    
-    
-    
-    
-    
-    
-
-    #pragma mark --- ZYImageView
-    
-//    ZYImageView *imageView = [[ZYImageView alloc] init];
-//    [imageView zy_cornerRadiusAdvance:100.0f rectCornerType:UIRectCornerAllCorners];
-//    imageView.image = [UIImage imageNamed:@"mac_dog"];
-
-    
-    
-//    ZYImageView *imageView = [[ZYImageView alloc] initWithCornerRadiusAdvance:100.0f rectCornerType:UIRectCornerAllCorners];
-//    imageView.image = [UIImage imageNamed:@"mac_dog"];
-    
-    
-    
-//    ZYImageView *imageView = [ZYImageView zy_cornerRadiusAdvance:100.0f rectCornerType:UIRectCornerAllCorners];
-//    imageView.image = [UIImage imageNamed:@"mac_dog"];
-    
-    
-    
-//    ZYImageView *imageView = [[ZYImageView alloc] initWithRoundingRectImageView];
-//    imageView.image = [UIImage imageNamed:@"mac_dog"];
-//    [imageView zy_cornerRadiusAdvance:30.0f rectCornerType:UIRectCornerAllCorners];
-    
-    
-    
-//    ZYImageView *imageView = [[ZYImageView alloc] init];
-//    [imageView setFrame:CGRectMake(100, 300, 200, 200)];
-//    //带image的zy_cornerRadius需先有Frame，而且效果单次有效
-//    [imageView zy_cornerRadiusWithImage:[UIImage imageNamed:@"mac_dog"] cornerRadius:30.0f rectCornerType:UIRectCornerAllCorners];
-//    //当次有效，再次setImage则无圆角
-////    imageView.image = [UIImage imageNamed:@"mac_dog"];
-    
-    
-    
-    
-    [imageView setFrame:CGRectMake(80, 250, 200, 200)];
+    [imageView setFrame:CGRectMake(130, 80, 150, 150)];
     [self.view addSubview:imageView];
     
+    
+    UIImageView *imageViewSecond = [[UIImageView alloc] initWithCornerRadiusAdvance:20.f rectCornerType:UIRectCornerBottomLeft | UIRectCornerTopRight];
+    [imageViewSecond setFrame:CGRectMake(130, 280, 150, 150)];
+    [self.view addSubview:imageViewSecond];
+    
+    
+    UIImageView *imageViewThird = [[UIImageView alloc] initWithFrame:CGRectMake(130, 480, 150, 150)];
+    [imageViewThird zy_cornerRadiusAdvance:20.f rectCornerType:UIRectCornerBottomRight | UIRectCornerTopLeft];
+    [imageViewThird zy_attachBorderWidth:5.f color:[UIColor blackColor]];
+    [self.view addSubview:imageViewThird];
+    
+
+#pragma mark - setImage anytime
+    imageView.image = [UIImage imageNamed:@"mac_dog"];
+    imageViewSecond.image = [UIImage imageNamed:@"mac_dog"];
+    imageViewThird.image = [UIImage imageNamed:@"mac_dog"];
+    
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
