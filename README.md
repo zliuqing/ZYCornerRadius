@@ -30,6 +30,8 @@ pod 'ZYCornerRadius', '~> 0.6.1'
 内存使用对比:  
 ![](https://raw.githubusercontent.com/liuzhiyi1992/MyStore/master/ZYCornerRadius/%E5%86%85%E5%AD%98%E4%BD%BF%E7%94%A8%E5%AF%B9%E6%AF%94.jpg)  
 
+![](https://raw.githubusercontent.com/liuzhiyi1992/MyStore/master/ZYCornerRadius/zycornerRadius%E6%96%B0demo%E6%BC%94%E7%A4%BA%E5%9B%BE%E7%89%87.jpg)   
+
 
 
 <br>
