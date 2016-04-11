@@ -167,9 +167,7 @@ const char kBorderColor;
         if (self.isRounding) {
             [self zy_cornerRadiusWithImage:newImage cornerRadius:self.frame.size.width/2 rectCornerType:UIRectCornerAllCorners];
         } else if (0 != self.radius && 0 != self.roundingCorners && nil != self.image) {
-//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self zy_cornerRadiusWithImage:newImage cornerRadius:self.radius rectCornerType:self.roundingCorners];
-//            });
         }
     }
 }
