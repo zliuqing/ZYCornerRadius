@@ -19,7 +19,7 @@ A Category to make cornerRadius for UIImageView have no Offscreen-Rendered, be m
 
 ##CocoaPods:  
 ```
-pod 'ZYCornerRadius', '~> 0.7.1'
+pod 'ZYCornerRadius', '~> 0.8.1'
 ``` 
 
 <br>
@@ -102,6 +102,7 @@ imageView.image = [UIImage imageNamed:@"mac_dog"];
 
 <br>  
 ##iteration:  
+0.8.1 - 解决更新图片时图片内容闪动问题。
 0.7.1 - 去除部分api，保持使用简洁的设计理念，加入带边框功能  
 0.6.1 - 解决在TableViewCell被selected后，其中UIImageView的image被重置的问题  
 0.5.1 - 解决SDWebImage使用placeholder为nil时发生的crash  
