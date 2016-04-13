@@ -8,7 +8,7 @@ A Category to make cornerRadius for UIImageView have no Offscreen-Rendered, be m
 </h1>
 <br>
 <p align="center">
-<img src="https://img.shields.io/badge/pod-v0.7.1-blue.svg" />
+<img src="https://img.shields.io/badge/pod-v0.8.1-blue.svg" />
 <img src="https://img.shields.io/badge/build-passing-brightgreen.svg" />
 <img src="https://img.shields.io/badge/language-objc-5787e5.svg" />
 <img src="https://img.shields.io/badge/Advantage-Efficient-red.svg" />
