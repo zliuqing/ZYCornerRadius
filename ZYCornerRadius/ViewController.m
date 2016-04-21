@@ -8,7 +8,6 @@
 
 #import "ViewController.h"
 #import "UIImageView+CornerRadius.h"
-#import "ZYImageView.h"
 
 @interface ViewController ()
 

@@ -154,9 +154,33 @@ const char kBorderColor;
     }
 }
 
+- (void)validateFrame {
+    if (self.frame.size.width == 0) {
+        [self.class swizzleMethod:@selector(layoutSubviews) anotherMethod:@selector(zy_LayoutSubviews)];
+    }
+}
+
++ (void)swizzleMethod:(SEL)oneSel anotherMethod:(SEL)anotherSel {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        Method oneMethod = class_getInstanceMethod(self, oneSel);
+        Method anotherMethod = class_getInstanceMethod(self, anotherSel);
+        
+        method_exchangeImplementations(oneMethod, anotherMethod);
+    });
+}
+
+- (void)zy_LayoutSubviews {
+    [super layoutSubviews];
+    if (self.isRounding) {
+        [self zy_cornerRadiusWithImage:self.image cornerRadius:self.frame.size.width/2 rectCornerType:UIRectCornerAllCorners];
+    } else if (0 != self.radius && 0 != self.roundingCorners && nil != self.image) {
+        [self zy_cornerRadiusWithImage:self.image cornerRadius:self.radius rectCornerType:self.roundingCorners];
+    }
+}
+
 #pragma mark - KVO for .image
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ([keyPath isEqualToString:@"image"]) {
         UIImage *newImage = change[NSKeyValueChangeNewKey];
         if ([newImage isMemberOfClass:[NSNull class]]) {
@@ -164,6 +188,7 @@ const char kBorderColor;
         } else if ([objc_getAssociatedObject(newImage, &kProcessedImage) intValue] == 1) {
             return;
         }
+        [self validateFrame];
         if (self.isRounding) {
             [self zy_cornerRadiusWithImage:newImage cornerRadius:self.frame.size.width/2 rectCornerType:UIRectCornerAllCorners];
         } else if (0 != self.radius && 0 != self.roundingCorners && nil != self.image) {

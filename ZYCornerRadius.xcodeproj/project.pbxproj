@@ -12,7 +12,6 @@
 		4870C56D1C8EC75500C05CDA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4870C55E1C8EC75500C05CDA /* LaunchScreen.storyboard */; };
 		4870C56E1C8EC75500C05CDA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4870C5601C8EC75500C05CDA /* Main.storyboard */; };
 		4870C56F1C8EC75500C05CDA /* UIImageView+CornerRadius.m in Sources */ = {isa = PBXBuildFile; fileRef = 4870C5641C8EC75500C05CDA /* UIImageView+CornerRadius.m */; };
-		4870C5701C8EC75500C05CDA /* ZYImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4870C5661C8EC75500C05CDA /* ZYImageView.m */; };
 		4870C5711C8EC75500C05CDA /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4870C5671C8EC75500C05CDA /* Info.plist */; };
 		4870C5721C8EC75500C05CDA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4870C5681C8EC75500C05CDA /* main.m */; };
 		4870C5731C8EC75500C05CDA /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4870C56A1C8EC75500C05CDA /* ViewController.m */; };
@@ -27,8 +26,6 @@
 		4870C5611C8EC75500C05CDA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4870C5631C8EC75500C05CDA /* UIImageView+CornerRadius.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+CornerRadius.h"; sourceTree = "<group>"; };
 		4870C5641C8EC75500C05CDA /* UIImageView+CornerRadius.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+CornerRadius.m"; sourceTree = "<group>"; };
-		4870C5651C8EC75500C05CDA /* ZYImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYImageView.h; sourceTree = "<group>"; };
-		4870C5661C8EC75500C05CDA /* ZYImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYImageView.m; sourceTree = "<group>"; };
 		4870C5671C8EC75500C05CDA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4870C5681C8EC75500C05CDA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4870C5691C8EC75500C05CDA /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
@@ -84,8 +81,6 @@
 			children = (
 				4870C5631C8EC75500C05CDA /* UIImageView+CornerRadius.h */,
 				4870C5641C8EC75500C05CDA /* UIImageView+CornerRadius.m */,
-				4870C5651C8EC75500C05CDA /* ZYImageView.h */,
-				4870C5661C8EC75500C05CDA /* ZYImageView.m */,
 			);
 			path = CornerRadiusCategory;
 			sourceTree = "<group>";
@@ -161,7 +156,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4870C5701C8EC75500C05CDA /* ZYImageView.m in Sources */,
 				4870C56B1C8EC75500C05CDA /* AppDelegate.m in Sources */,
 				4870C5731C8EC75500C05CDA /* ViewController.m in Sources */,
 				4870C5721C8EC75500C05CDA /* main.m in Sources */,
