@@ -43,25 +43,23 @@ pod 'ZYCornerRadius', '~> 0.9.1'
 ```
 创建圆角半径为6的UIImageView(两种种方式)：  
 ```objc
-//2
+//1
 UIImageView *imageView = [[UIImageView alloc] initWithCornerRadiusAdvance:6.0f rectCornerType:UIRectCornerAllCorners];
 
-//3
+//2
 UIImageView *imageView = [[UIImageView alloc] init];
 [imageView zy_cornerRadiusAdvance:6.0f rectCornerType:UIRectCornerAllCorners];
 ```
 创建圆形的UIImageView(两种方式)：  
 ```objc
-//2
+//1
 UIImageView *imageView = [[UIImageView alloc] initWithRoundingRectImageView];
-imageView.image = [UIImage imageNamed:@"mac_dog"];
 
-//3
+//2
 UIImageView *imageView = [[UIImageView alloc] init];
 [imageView zy_cornerRadiusRoundingRect];
-imageView.image = [UIImage imageNamed:@"mac_dog"];
 ```  
-为UIImageView的图片附加边框：
+可为UIImageView的图片附加边框：
 ```objc
 [imageView zy_attachBorderWidth:1.f color:[UIColor redColor]];
 ```
