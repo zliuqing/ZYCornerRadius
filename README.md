@@ -36,34 +36,22 @@ pod 'ZYCornerRadius', '~> 0.9.1'
 
 <br>
 ##Usage:  
->ZYCornerRadius提供两种使用方式  
 
-**Category方式：**  
 导入头文件  
 ```objc
 #import "UIImageView+CornerRadius.h"
 ```
-创建圆角半径为6的UIImageView(三种方式)：  
+创建圆角半径为6的UIImageView(两种种方式)：  
 ```objc
-//1
-UIImageView *imageView = [UIImageView zy_cornerRadiusAdvance:6.0f rectCornerType:UIRectCornerAllCorners];
-imageView.image = [UIImage imageNamed:@"mac_dog"];
-
 //2
 UIImageView *imageView = [[UIImageView alloc] initWithCornerRadiusAdvance:6.0f rectCornerType:UIRectCornerAllCorners];
-imageView.image = [UIImage imageNamed:@"mac_dog"];
 
 //3
 UIImageView *imageView = [[UIImageView alloc] init];
 [imageView zy_cornerRadiusAdvance:6.0f rectCornerType:UIRectCornerAllCorners];
-imageView.image = [UIImage imageNamed:@"mac_dog"];
 ```
-创建圆形的UIImageView(三种方式)：  
+创建圆形的UIImageView(两种方式)：  
 ```objc
-//1
-UIImageView *imageView = [UIImageView zy_roundingRectImageView];
-imageView.image = [UIImage imageNamed:@"mac_dog"];
-
 //2
 UIImageView *imageView = [[UIImageView alloc] initWithRoundingRectImageView];
 imageView.image = [UIImage imageNamed:@"mac_dog"];
@@ -73,36 +61,20 @@ UIImageView *imageView = [[UIImageView alloc] init];
 [imageView zy_cornerRadiusRoundingRect];
 imageView.image = [UIImage imageNamed:@"mac_dog"];
 ```  
-**子类ZYImageView方式同理：**  
-导入头文件  
+为UIImageView的图片附加边框：
 ```objc
-#import "ZYImageView.h"
+[imageView zy_attachBorderWidth:1.f color:[UIColor redColor]];
 ```
-使用方式同理  
-
-
-
-<br>
-<br>
-##以下列出ZYCornerRadius所开放的主要的func:  
-配置一个圆角UIImageView，传入圆角半径和圆角类型  
+按你的需要完成配置后，任何时候对UIImageView setImage，效果都会生效
 ```objc
-+ (UIImageView *)zy_cornerRadiusAdvance:(CGFloat)cornerRadius rectCornerType:(UIRectCorner)rectCornerType;
-- (instancetype)initWithCornerRadiusAdvance:(CGFloat)cornerRadius rectCornerType:(UIRectCorner)rectCornerType;
-```  
-配置一个圆形的UIImageView  
-```objc
-+ (UIImageView *)zy_roundingRectImageView;
-- (instancetype)initWithRoundingRectImageView;
-```  
-直接为UIImageView设置圆角图片，传入UIImage，圆角半径和圆角类型，当次有效  
-```objc
-- (void)zy_cornerRadiusWithImage:(UIImage *)image cornerRadius:(CGFloat)cornerRadius rectCornerType:(UIRectCorner)rectCornerType;
-```  
+//anytime 
+imageView.image = [UIImage imageNamed:@"mac_dog"];
+```
+
 
 <br>  
 ##iteration:  
-0.9.1 - 处理 setImage发生在 frame计算之前 导致圆角无效的问题，此版本删除ZYImageView，统一使用UIImageView+CornerRadius  
+0.9.1 - 处理 setImage发生在 frame计算之前(Masonry) 导致圆角无效的问题，此版本删除ZYImageView，统一使用UIImageView+CornerRadius  
 0.8.1 - 解决更新图片时图片内容闪动问题。  
 0.7.1 - 去除部分api，保持使用简洁的设计理念，加入带边框功能  
 0.6.1 - 解决在TableViewCell被selected后，其中UIImageView的image被重置的问题  
