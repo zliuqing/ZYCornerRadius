@@ -122,6 +122,7 @@ const char kBorderColor;
     self.isRounding = NO;
     
     if (!self.hadAddObserver) {
+        [[self class]swizzleMethod:NSSelectorFromString(@"dealloc") anotherMethod:@selector(zy_dealloc)];
         [self addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:nil];
         self.hadAddObserver = YES;
     }
@@ -134,6 +135,7 @@ const char kBorderColor;
     self.isRounding = YES;
     
     if (!self.hadAddObserver) {
+        [[self class]swizzleMethod:NSSelectorFromString(@"dealloc") anotherMethod:@selector(zy_dealloc)];
         [self addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:nil];
         self.hadAddObserver = YES;
     }
@@ -148,10 +150,11 @@ const char kBorderColor;
     }
 }
 
-- (void)dealloc {
+- (void)zy_dealloc {
     if (self.hadAddObserver) {
         [self removeObserver:self forKeyPath:@"image"];
     }
+    [self zy_dealloc];
 }
 
 - (void)validateFrame {
