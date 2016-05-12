@@ -122,7 +122,7 @@ const char kBorderColor;
     self.isRounding = NO;
     
     if (!self.hadAddObserver) {
-        [[self class]swizzleMethod:NSSelectorFromString(@"dealloc") anotherMethod:@selector(zy_dealloc)];
+        [[self class] swizzleMethod:NSSelectorFromString(@"dealloc") anotherMethod:@selector(zy_dealloc)];
         [self addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:nil];
         self.hadAddObserver = YES;
     }
@@ -135,7 +135,7 @@ const char kBorderColor;
     self.isRounding = YES;
     
     if (!self.hadAddObserver) {
-        [[self class]swizzleMethod:NSSelectorFromString(@"dealloc") anotherMethod:@selector(zy_dealloc)];
+        [[self class] swizzleMethod:NSSelectorFromString(@"dealloc") anotherMethod:@selector(zy_dealloc)];
         [self addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:nil];
         self.hadAddObserver = YES;
     }
@@ -174,7 +174,7 @@ const char kBorderColor;
 }
 
 - (void)zy_LayoutSubviews {
-    [super layoutSubviews];
+    [self zy_LayoutSubviews];
     if (self.isRounding) {
         [self zy_cornerRadiusWithImage:self.image cornerRadius:self.frame.size.width/2 rectCornerType:UIRectCornerAllCorners];
     } else if (0 != self.radius && 0 != self.roundingCorners && nil != self.image) {
