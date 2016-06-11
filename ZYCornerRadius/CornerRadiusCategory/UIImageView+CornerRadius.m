@@ -70,17 +70,20 @@ const char kBorderColor;
  * @brief clip the cornerRadius with image, UIImageView must be setFrame before, no off-screen-rendered
  */
 - (void)zy_cornerRadiusWithImage:(UIImage *)image cornerRadius:(CGFloat)cornerRadius rectCornerType:(UIRectCorner)rectCornerType {
+    objc_setAssociatedObject(image, &kProcessedImage, @(1), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    self.image = image;
     CGSize size = self.bounds.size;
     CGFloat scale = [UIScreen mainScreen].scale;
     CGSize cornerRadii = CGSizeMake(cornerRadius, cornerRadius);
     
     UIGraphicsBeginImageContextWithOptions(size, NO, scale);
-    if (nil == UIGraphicsGetCurrentContext()) {
+    CGContextRef currentContext = UIGraphicsGetCurrentContext();
+    if (nil == currentContext) {
         return;
     }
     UIBezierPath *cornerPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:rectCornerType cornerRadii:cornerRadii];
     [cornerPath addClip];
-    [image drawInRect:self.bounds];
+    [self.layer renderInContext:currentContext];
     [self drawBorder:cornerPath];
     UIImage *processedImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
@@ -92,12 +95,15 @@ const char kBorderColor;
  * @brief clip the cornerRadius with image, draw the backgroundColor you want, UIImageView must be setFrame before, no off-screen-rendered, no Color Blended layers
  */
 - (void)zy_cornerRadiusWithImage:(UIImage *)image cornerRadius:(CGFloat)cornerRadius rectCornerType:(UIRectCorner)rectCornerType backgroundColor:(UIColor *)backgroundColor {
+    objc_setAssociatedObject(image, &kProcessedImage, @(1), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    self.image = image;
     CGSize size = self.bounds.size;
     CGFloat scale = [UIScreen mainScreen].scale;
     CGSize cornerRadii = CGSizeMake(cornerRadius, cornerRadius);
     
     UIGraphicsBeginImageContextWithOptions(size, YES, scale);
-    if (nil == UIGraphicsGetCurrentContext()) {
+    CGContextRef currentContext = UIGraphicsGetCurrentContext();
+    if (nil == currentContext) {
         return;
     }
     UIBezierPath *cornerPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:rectCornerType cornerRadii:cornerRadii];
@@ -105,7 +111,7 @@ const char kBorderColor;
     [backgroundColor setFill];
     [backgroundRect fill];
     [cornerPath addClip];
-    [image drawInRect:self.bounds];
+    [self.layer renderInContext:currentContext];
     [self drawBorder:cornerPath];
     UIImage *processedImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
