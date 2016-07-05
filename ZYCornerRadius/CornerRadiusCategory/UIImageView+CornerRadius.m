@@ -34,7 +34,8 @@ const char kBorderColor;
 
 
 @implementation UIImageView (CornerRadius)
-
+static dispatch_once_t layoutSubviewsOnceToken;
+static dispatch_once_t deallocOnceToken;
 /**
  * @brief init the Rounding UIImageView, no off-screen-rendered
  */
@@ -124,7 +125,7 @@ const char kBorderColor;
     self.isRounding = NO;
     
     if (!self.hadAddObserver) {
-        [[self class] swizzleMethod:NSSelectorFromString(@"dealloc") anotherMethod:@selector(zy_dealloc)];
+        [[self class] swizzleMethod:NSSelectorFromString(@"dealloc") anotherMethod:@selector(zy_dealloc) onceToken:deallocOnceToken];
         [self addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:nil];
         self.hadAddObserver = YES;
     }
@@ -137,7 +138,7 @@ const char kBorderColor;
     self.isRounding = YES;
     
     if (!self.hadAddObserver) {
-        [[self class] swizzleMethod:NSSelectorFromString(@"dealloc") anotherMethod:@selector(zy_dealloc)];
+        [[self class] swizzleMethod:NSSelectorFromString(@"dealloc") anotherMethod:@selector(zy_dealloc) onceToken:deallocOnceToken];
         [self addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:nil];
         self.hadAddObserver = YES;
     }
@@ -161,12 +162,11 @@ const char kBorderColor;
 
 - (void)validateFrame {
     if (self.frame.size.width == 0) {
-        [self.class swizzleMethod:@selector(layoutSubviews) anotherMethod:@selector(zy_LayoutSubviews)];
+        [self.class swizzleMethod:@selector(layoutSubviews) anotherMethod:@selector(zy_LayoutSubviews) onceToken:layoutSubviewsOnceToken];
     }
 }
 
-+ (void)swizzleMethod:(SEL)oneSel anotherMethod:(SEL)anotherSel {
-    static dispatch_once_t onceToken;
++ (void)swizzleMethod:(SEL)oneSel anotherMethod:(SEL)anotherSel onceToken:(dispatch_once_t)onceToken {
     dispatch_once(&onceToken, ^{
         Method oneMethod = class_getInstanceMethod(self, oneSel);
         Method anotherMethod = class_getInstanceMethod(self, anotherSel);
