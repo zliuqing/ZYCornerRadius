@@ -8,7 +8,7 @@ A Category to make cornerRadius for UIImageView have no Offscreen-Rendered, be m
 </h1>
 <br>
 <p align="center">
-<img src="https://img.shields.io/badge/pod-v0.9.3-blue.svg" />
+<img src="https://img.shields.io/badge/pod-v0.9.4-blue.svg" />
 <img src="https://img.shields.io/badge/build-passing-brightgreen.svg" />
 <img src="https://img.shields.io/badge/language-objc-5787e5.svg" />
 <img src="https://img.shields.io/badge/Advantage-Efficient-red.svg" />
@@ -19,7 +19,7 @@ A Category to make cornerRadius for UIImageView have no Offscreen-Rendered, be m
 
 ##CocoaPods:  
 ```
-pod 'ZYCornerRadius', '~> 0.9.3'
+pod 'ZYCornerRadius', '~> 0.9.4'
 ``` 
 
 <br>
@@ -72,6 +72,7 @@ imageView.image = [UIImage imageNamed:@"mac_dog"];
 
 <br>  
 ##iteration:  
+0.9.4 - 处理多个swizzleMethod的问题   
 0.9.3 - 处理上版本制造的bug  
 0.9.2 - 处理ContentMode无效问题  
 0.9.1 - 处理 setImage发生在 frame计算之前(Masonry) 导致圆角无效的问题，此版本删除ZYImageView，统一使用UIImageView+CornerRadius  
