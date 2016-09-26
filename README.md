@@ -72,7 +72,7 @@ imageView.image = [UIImage imageNamed:@"mac_dog"];
 
 <br>  
 ##iteration:  
-1.0.1 - fix重大bug
+1.0.1 - fix重大bug, 整理代码  
 0.9.4 - 处理多个swizzleMethod的问题   
 0.9.3 - 处理上版本制造的bug  
 0.9.2 - 处理ContentMode无效问题  
