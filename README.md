@@ -16,16 +16,19 @@ A Category to make cornerRadius for UIImageView have no Offscreen-Rendered, be m
 <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg" />
 
 </p>
-<br>
+
+
 
 ##CocoaPods:  
 ```
 pod 'ZYCornerRadius', '~> 1.0.2'
 ``` 
 
-<br>
+
+
 ##性能对比:  
 测试设备6P，屏幕中有40张尺寸为20*20的小图片，使用masksToBounds切角处理时帧率大大下降至20+，使用ZYCornerRadius时帧率保持在57+，性能接近0损耗。  
+
 ![](https://raw.githubusercontent.com/liuzhiyi1992/MyStore/master/ZYCornerRadius/ZYCornerRadius%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94.png)    
 
 内存使用对比:  
