@@ -90,7 +90,10 @@ const char kProcessedImage;
     CGSize size = self.bounds.size;
     CGFloat scale = [UIScreen mainScreen].scale;
     CGSize cornerRadii = CGSizeMake(cornerRadius, cornerRadius);
-    
+    if (size.width < 1 || size.height < 1) {
+        self.image = image;
+        return;
+    }
     UIGraphicsBeginImageContextWithOptions(size, YES, scale);
     CGContextRef currentContext = UIGraphicsGetCurrentContext();
     if (nil == currentContext) {
